@@ -1,2 +1,10 @@
 import './01-基础类型'
+import './02_接口'
+import './03_类'
+import './04_修饰符'
+import './05_存取器'
+import './06_静态成员'
+import './07_函数'
+import './08_泛型'
+import './09_声明文件'
 document.write("hello world")

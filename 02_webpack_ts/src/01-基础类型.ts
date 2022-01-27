@@ -78,6 +78,46 @@
     }
     console.log(showMsg())
     console.log('-------------------------------')
-    //
+    //object 类型
+    function getObj(obj:object):object {
+        console.log(obj)
+        return {
+            name: "卡卡西",
+            age: 27
+        }
+    }
+    console.log(getObj({name:"佐助", age: 18}))
+    // console.log(getObj("123")) //错误做法
 
+    //联合类型
+    function getString(str:number|string):string{
+        return str.toString()
+
+    }
+    console.log(getString(123))
+    console.log(getString("abc"))
+
+    //类型断言，告诉编译器，我知道自己是什么类型
+    //方式1:<类型>变量名
+    //方式2: 变量名 as 类型
+    //定义一个函数，得到一个字符串或数字的长度
+    function getLength(str:number|string):number{
+        // return str.toString().length
+        if((<string>str).length) {
+            return (<string>str).length
+        }
+        return str.toString().length
+    }
+    console.log(getLength(23456))
+    console.log(getLength("23456"))
+
+    //类型推断
+    let txt = 100
+    // txt = "abc"
+    console.log(txt)
+
+    let txt2  // any
+    txt2 = 100
+    console.log(txt2)
+    console.log('-------------------------------')
 })()
