@@ -7,4 +7,4 @@ import './06_静态成员'
 import './07_函数'
 import './08_泛型'
 import './09_声明文件'
-document.write("hello world")
+// document.write("hello world")

@@ -42,11 +42,10 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js']
   },
 
-  devtool: isProd ? 'cheap-module-source-map' : 'cheap-module-eval-source-map',
+  devtool: isProd ? 'source-map' : 'eval-cheap-source-map',
 
   devServer: {
     host: 'localhost', // 主机名
-    stats: 'errors-only', // 打包日志输出输出错误信息
     port: 8081,
     open: true
   },
