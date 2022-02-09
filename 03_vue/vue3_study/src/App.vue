@@ -1,23 +1,45 @@
 <template>
-<h2>App父级组件</h2>
-<h3>msg:{{msg}}</h3>
-<button @click="msg += '==='">更新数据</button>
+<h2>reactive和ref的细节问题</h2>
+<h3>m1:{{m1}}</h3>
+<h3>m2:{{m2}}</h3>
+<h3>m3:{{m3}}</h3>
 <hr>
-<child :msg="msg" @fn="fn"/>
+<button @click="update">更新数据</button>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-//引入子级组件
-import Child from './components/Child.vue'
+import { defineComponent, ref,reactive } from 'vue'
 export default defineComponent({
-  components: { Child },
   name:"App",
   setup() {
-    const msg = ref("what are you doing")
-    function fn (content:string){
-      msg.value += content
+    const m1 = ref("abc")
+    const m2 = reactive({
+      name: "小明",
+      wife:{
+        name: "小红"
+      }
+    })
+    const m3 = ref({
+      name: "小明",
+      wife:{
+        name: "小红"
+      }
+    })
+    const update = () => {
+      m1.value += '='
+      m2.wife.name += '-'
+      // m3.value.name += '+'
+      m3.value.wife.name += '+'
     }
-    return {msg,fn}
+    console.log(m1);
+    console.log(m2);
+    console.log(m3);
+    
+    return {
+      m1, 
+      m2,
+      m3,
+      update
+    }
   }
 })
 </script>
