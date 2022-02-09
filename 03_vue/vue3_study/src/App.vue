@@ -3,7 +3,7 @@
 <h3>msg:{{msg}}</h3>
 <button @click="msg += '==='">更新数据</button>
 <hr>
-<child :msg="msg"/>
+<child :msg="msg" @fn="fn"/>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
@@ -14,7 +14,10 @@ export default defineComponent({
   name:"App",
   setup() {
     const msg = ref("what are you doing")
-    return {msg}
+    function fn (content:string){
+      msg.value += content
+    }
+    return {msg,fn}
   }
 })
 </script>
