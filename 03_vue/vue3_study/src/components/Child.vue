@@ -1,6 +1,7 @@
 <template>
 <h2>child子级组件</h2>
 <h3>msg:{{msg}}</h3>
+<h3>count: {{count}}</h3>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
@@ -17,11 +18,33 @@ export default defineComponent({
       
   },
   //界面渲染完毕
-//   mounted() {},
+  mounted() {
+      console.log(this);
+      
+  },
   setup() {
       console.log("setup执行了",this)
+      const showMsg1=()=>{
+          console.log("setup中的showMsg1方法");
+      }
       return {
+          showMsg1
           //setup 中一般都是返回一个对象，对象中的属性和方法都可以在html模板中直接使用
+      }
+  },
+  //setup的返回值是一个对象
+  //setup中的对象内部的属性和data函数中的return对象的属性都可以在html模板中使用
+  //二者会进行合并
+  //方法也会进行合并，如果有重名，setup优先
+  data() {
+      return {
+          count: 10
+      }
+  },
+  methods: {
+      showMsg2() {
+          console.log("methods中的showMsg2方法");
+          
       }
   }
 })
