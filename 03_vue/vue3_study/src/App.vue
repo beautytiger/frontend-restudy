@@ -1,50 +1,41 @@
 <template>
-  <h2>toRaw和markRaw</h2>
+  <h2>toRef的使用及其特点</h2>
   <h3>state: {{ state }}</h3>
+  <h3>age: {{ age }}</h3>
+  <h3>money: {{ money }}</h3>
   <hr>
-  <button @click="testToRaw">测试toRaw</button>
-  <button @click="testMarkRaw">测试MarkRaw</button>
+  <button @click="update">更新数据</button>
+  <hr>
+  <child :age="age"/>
 </template>
 <script lang="ts">
-import { defineComponent, markRaw, reactive, toRaw } from "vue";
-interface UserInfo {
-  name: string;
-  age: number;
-  likes?: string[];
-}
+import { defineComponent, reactive, toRef, ref } from "vue";
+import Child from "./components/Child.vue";
 export default defineComponent({
+  components: { Child },
   name: "App",
   setup() {
-    const state = reactive<UserInfo>({
-      name: "小明",
-      age: 20,
+    const state = reactive({
+      age: 5,
+      money: 100
     })
-    const testToRaw = ()=>{
-      console.log("testTo");
-      const user = toRaw(state)
-      user.name += "==="
-      
+    const age = toRef(state, "age")
+    const money = ref(state.money)
+    const update = ()=>{
+      console.log("update");
+      state.age += 2
+      // age.value += 3
+      money.value += 10
     }
-    const testMarkRaw = ()=>{
-      console.log("testMark");
-      // state.likes = ["1", "2", "3"]
-      // state.likes[0] += "--"
-
-      state.likes = markRaw(["1", "2", "3"])
-      setInterval(()=>{
-        if (state.likes) {
-          state.likes[0] += "="
-        }
-        console.log("hello");
-        
-      }, 1000)
-    }
+    console.log(age);
+    console.log(money);
+    
     return {
       state,
-      testToRaw,
-      testMarkRaw
+      age,
+      money,
+      update
     }
-
   }
 })
 
