@@ -1,5 +1,5 @@
 <template>
-  <h2>provide与inject</h2>
+  <h2>响应式数据的判断</h2>
   <p>当前的颜色:{{ color }}</p>
   <hr>
   <button @click="color='red'">红色</button>
@@ -9,7 +9,7 @@
   <son />
 </template>
 <script lang="ts">
-import { defineComponent, provide, ref } from "vue";
+import { defineComponent, provide, ref,isRef,reactive,isReactive,readonly,isReadonly, isProxy } from "vue";
 import Son from "./components/Son.vue";
 export default defineComponent({
   components: { Son },
@@ -18,6 +18,11 @@ export default defineComponent({
     const color = ref("red")
     //提供数据
     provide('color', color)
+    console.log(isRef(ref({})));
+    console.log(isReactive(reactive({})));
+    console.log(isReadonly(readonly({})));
+    console.log(isProxy(readonly({})));
+    console.log(isProxy(reactive({})));
     return {
       color
     }
