@@ -1,36 +1,25 @@
 <template>
-  <h2>customRef的使用</h2>
-  <input type="text" v-model="keyword">
-  <p>{{ keyword }}</p>
+  <h2>provide与inject</h2>
+  <p>当前的颜色:{{ color }}</p>
+  <hr>
+  <button @click="color='red'">红色</button>
+  <button @click="color='yellow'">黄色</button>
+  <button @click="color='green'">绿色</button>
+  <hr>
+  <son />
 </template>
 <script lang="ts">
-import { customRef, defineComponent, ref } from "vue";
-//自定义防抖函数
-function useDebouncedRef<T>(value:T, delay=200) {
-  let timeOutId:number
-  return customRef((track,triger)=>{
-    return {
-      get(){
-        track()
-        return value
-      },
-      set(newValue:T){
-        clearTimeout(timeOutId)
-        timeOutId = setTimeout(()=>{
-          value = newValue
-          triger()
-        },delay)
-      },
-    }
-  })
-}
+import { defineComponent, provide, ref } from "vue";
+import Son from "./components/Son.vue";
 export default defineComponent({
+  components: { Son },
   name: "App",
   setup() {
-    // const keyword = ref("avc")
-    const keyword = useDebouncedRef<string>("abc", 500)
+    const color = ref("red")
+    //提供数据
+    provide('color', color)
     return {
-      keyword
+      color
     }
   }
 })
