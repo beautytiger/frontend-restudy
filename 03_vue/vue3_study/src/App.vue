@@ -1,35 +1,50 @@
 <template>
-  <h2>readonly和shallowreadonly</h2>
-  <h3>state: {{ state2 }}</h3>
+  <h2>toRaw和markRaw</h2>
+  <h3>state: {{ state }}</h3>
   <hr>
-  <button @click="update">更新</button>
+  <button @click="testToRaw">测试toRaw</button>
+  <button @click="testMarkRaw">测试MarkRaw</button>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, readonly, shallowReadonly } from "vue";
+import { defineComponent, markRaw, reactive, toRaw } from "vue";
+interface UserInfo {
+  name: string;
+  age: number;
+  likes?: string[];
+}
 export default defineComponent({
   name: "App",
   setup() {
-    const state = reactive({
-      name: "佐助",
+    const state = reactive<UserInfo>({
+      name: "小明",
       age: 20,
-      car: {
-        name: "benz",
-        color: "yellow"
-      }
     })
-    const state2 = readonly(state)
-    const state3 = shallowReadonly(state)
-    const update = ()=>{
-      console.log("测试")
-      // state2.name += "+++"
-      // state2.car.name += "+++"
-      // state3.name += "+++"
-      state3.car.name += "+++"
+    const testToRaw = ()=>{
+      console.log("testTo");
+      const user = toRaw(state)
+      user.name += "==="
+      
+    }
+    const testMarkRaw = ()=>{
+      console.log("testMark");
+      // state.likes = ["1", "2", "3"]
+      // state.likes[0] += "--"
+
+      state.likes = markRaw(["1", "2", "3"])
+      setInterval(()=>{
+        if (state.likes) {
+          state.likes[0] += "="
+        }
+        console.log("hello");
+        
+      }, 1000)
     }
     return {
-      state2,
-      update
+      state,
+      testToRaw,
+      testMarkRaw
     }
+
   }
 })
 
