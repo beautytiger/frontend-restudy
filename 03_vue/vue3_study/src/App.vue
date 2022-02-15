@@ -1,40 +1,36 @@
 <template>
-  <h2>toRef的使用及其特点</h2>
-  <h3>state: {{ state }}</h3>
-  <h3>age: {{ age }}</h3>
-  <h3>money: {{ money }}</h3>
-  <hr>
-  <button @click="update">更新数据</button>
-  <hr>
-  <child :age="age"/>
+  <h2>customRef的使用</h2>
+  <input type="text" v-model="keyword">
+  <p>{{ keyword }}</p>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, toRef, ref } from "vue";
-import Child from "./components/Child.vue";
+import { customRef, defineComponent, ref } from "vue";
+//自定义防抖函数
+function useDebouncedRef<T>(value:T, delay=200) {
+  let timeOutId:number
+  return customRef((track,triger)=>{
+    return {
+      get(){
+        track()
+        return value
+      },
+      set(newValue:T){
+        clearTimeout(timeOutId)
+        timeOutId = setTimeout(()=>{
+          value = newValue
+          triger()
+        },delay)
+      },
+    }
+  })
+}
 export default defineComponent({
-  components: { Child },
   name: "App",
   setup() {
-    const state = reactive({
-      age: 5,
-      money: 100
-    })
-    const age = toRef(state, "age")
-    const money = ref(state.money)
-    const update = ()=>{
-      console.log("update");
-      state.age += 2
-      // age.value += 3
-      money.value += 10
-    }
-    console.log(age);
-    console.log(money);
-    
+    // const keyword = ref("avc")
+    const keyword = useDebouncedRef<string>("abc", 500)
     return {
-      state,
-      age,
-      money,
-      update
+      keyword
     }
   }
 })
